@@ -37,10 +37,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getProductById(long productId) {
+        log.info("Getting product details for productID: {}", productId);
         Product product = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ProductServiceCustomException(
                         "Product not found with ID : " + productId + " !!", "PRODUCT_NOT_FOUND"));
 
+        log.info("Product details :{}", product);
         ProductResponse prodRes = new ProductResponse();
 
         // use to copy from one source to destination object.
