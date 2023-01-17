@@ -17,13 +17,13 @@ public class CustomErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         log.info("::{}", response.request().url());
         log.info("::{}", response.request().headers());
 
         try {
-            ErrorResponse errorResponse = mapper.readValue(response.body().asInputStream(), ErrorResponse.class);
+            ErrorResponse errorResponse = objectMapper.readValue(response.body().asInputStream(), ErrorResponse.class);
             return new CustomException(errorResponse.getErrorMessage(), errorResponse.getErrorCode(), response.status());
 
         } catch (IOException e) {
