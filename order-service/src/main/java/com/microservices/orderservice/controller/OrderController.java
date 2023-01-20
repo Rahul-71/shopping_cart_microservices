@@ -4,6 +4,7 @@ package com.microservices.orderservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @PreAuthorize(value = "hasAuthority('Customer')")
     @PostMapping("/placeOrder")
     public ResponseEntity<Long> placeOrder(@RequestBody OrderRequest orderReq) {
         long orderId = this.orderService.placeOrder(orderReq);
@@ -33,6 +35,7 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId, HttpStatus.CREATED);
     }
 
+    @PreAuthorize(value = "hasAuthority('Customer') || hasAuthority('Admin')")
     @GetMapping(path = "/{orderId}")
     public ResponseEntity<OrderResponse> getOrderDetails(@PathVariable long orderId) {
         OrderResponse orderResponse = this.orderService.getOrderDetails(orderId);
