@@ -1,5 +1,5 @@
 server:
-  port: 9876
+  port: 9090
 
 spring:
   application:
@@ -16,15 +16,38 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ORDER-SERVICE
+                fallbackuri: forward:/orderServiceFallBack
         - id: PAYMENT-SERVICE
           uri: lb://PAYMENT-SERVICE
           predicates:
             - Path=/payment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PAYMENT-SERVICE
+                fallbackuri: forward:/paymentServiceFallBack
         - id: PRODUCT-SERVICE
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PRODUCT-SERVICE
+                fallbackuri: forward:/productServiceFallBack
 
-eureka:
-  instance:
-    prefer-ip-address: true
+okta:
+  oauth2:
+    issuer: https://dev-83174035.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oa804upylkK8gBVa5d7
+    client-secret: 5ilRY8ljn8IRLuxVez_AhRmdk5LxvJZsB5mdvLS5
+    scopes:
+    - openid
+    - profile
+    - email
+    - offline_access
