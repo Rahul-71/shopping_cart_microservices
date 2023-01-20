@@ -8,8 +8,10 @@ spring:
     config:
       server:
         git:
-          uri: http://github.com/Rahul-71/spring-app-config.git
+          uri: https://github.com/Rahul-71/spring-app-config.git
           clone-on-start: true
+          deleteUntrackedBranches: true
+          refreshRate: 60
   profiles:
     active: native
 
