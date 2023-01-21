@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
                 // present or not
 
                 // performing RESTAPI call through productService
+                log.info("Process for creating order started...");
                 this.productService.reduceQuantity(orderReq.getProductId(), orderReq.getQuantity());
 
                 log.info("Product quantity blocked for this order, proceeding to create order...");

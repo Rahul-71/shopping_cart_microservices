@@ -19,6 +19,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         ObjectMapper objectMapper = new ObjectMapper();
 
+        log.info("Error response captured from FeignClient");
         log.info("::{}", response.request().url());
         log.info("::{}", response.request().headers());
 
